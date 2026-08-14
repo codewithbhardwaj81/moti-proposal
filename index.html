@@ -1,25 +1,399 @@
-const noButton = document.getElementById("no");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const texts = [
-  "NO 😶",
-  "Are you sure? 🤨",
-  "Think again 😏",
-  "Really? 🥺",
-  "Nice try 😂",
-  "NO.exe crashed 💀",
-  "Okay... maybe YES? ❤️"
-];
+  <title>For Moti ❤️</title>
 
-let clickCount = 0;
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-function noClicked() {
-  const maxX = window.innerWidth - noButton.offsetWidth - 20;
-  const maxY = window.innerHeight - noButton.offsetHeight - 20;
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #020402;
+      color: #00ff88;
+      font-family: "Courier New", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
 
-  noButton.style.position = "fixed";
-  noButton.style.left = Math.max(10, Math.random() * maxX) + "px";
-  noButton.style.top = Math.max(10, Math.random() * maxY) + "px";
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,255,100,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,100,.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+    }
 
-  noButton.innerText = texts[Math.min(clickCount, texts.length - 1)];
-  clickCount++;
-}
+    .terminal {
+      width: 92%;
+      max-width: 760px;
+      background: rgba(0,10,5,.96);
+      border: 1px solid #00ff88;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 35px rgba(0,255,136,.25);
+    }
+
+    .bar {
+      color: #777;
+      border-bottom: 1px solid #123;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    #terminal {
+      min-height: 260px;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .proposal {
+      display: none;
+      text-align: center;
+      animation: appear 1.2s ease;
+    }
+
+    .proposal h1 {
+      color: #ff4d9d;
+      text-shadow: 0 0 20px #ff4d9d;
+    }
+
+    .proposal p {
+      color: #eee;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .pink {
+      color: #ff4d9d;
+      text-shadow: 0 0 10px #ff4d9d;
+    }
+
+    .buttons {
+      margin-top: 25px;
+      min-height: 60px;
+    }
+
+    button {
+      font-family: "Courier New", monospace;
+      font-size: 16px;
+      padding: 13px 25px;
+      margin: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    #yes {
+      background: #00ff88;
+      color: #001b0d;
+      border: none;
+      font-weight: bold;
+      box-shadow: 0 0 15px #00ff88;
+    }
+
+    #yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px #00ff88;
+    }
+
+    #no {
+      background: transparent;
+      color: #aaa;
+      border: 1px solid #555;
+    }
+
+    #answer {
+      margin-top: 25px;
+      font-family: Arial, sans-serif;
+      font-size: 19px;
+    }
+
+    .heart {
+      position: fixed;
+      top: -40px;
+      font-size: 25px;
+      pointer-events: none;
+      animation: fall 3s linear forwards;
+      z-index: 9999;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-30px) rotate(0deg);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .terminal {
+        padding: 18px;
+      }
+
+      #terminal {
+        font-size: 12px;
+        min-height: 230px;
+      }
+
+      .proposal h1 {
+        font-size: 25px;
+      }
+
+      .proposal p {
+        font-size: 16px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 11px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="terminal">
+
+    <div class="bar">
+      🔴 🟡 🟢 &nbsp; laukesh@heart-system:~$
+    </div>
+
+    <div id="terminal"></div>
+
+    <div class="proposal" id="proposal">
+
+      <h1>❤️ FINAL REQUEST ❤️</h1>
+
+      <p>
+        Hey <span class="pink">Moti</span> ❤️
+        <br><br>
+
+        Main developer hoon...
+        bugs fix kar sakta hoon,
+        code likh sakta hoon,
+        lekin ek cheez ka solution nahi mila...
+        <br><br>
+
+        <strong>Why do I smile whenever I talk to you? 😅</strong>
+        <br><br>
+
+        Isliye debugging band karke
+        directly pooch raha hoon...
+      </p>
+
+      <h2 style="color:white;">
+        Moti, will you go on a date with me? 🌹
+      </h2>
+
+      <div class="buttons">
+
+        <button id="yes" onclick="yesClicked()">
+          YES ❤️
+        </button>
+
+        <button id="no" onclick="noClicked()">
+          NO 😶
+        </button>
+
+      </div>
+
+      <div id="answer"></div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* =========================
+       HACKER TERMINAL
+    ========================= */
+
+    const messages = [
+      "> Booting Laukesh.exe...",
+      "> Loading heart.exe...",
+      "> Checking relationship status...",
+      "> Status: SINGLE 💀",
+      "> Searching for someone special...",
+      "> Searching...",
+      "> Searching...",
+      "> MATCH FOUND ❤️",
+      "> Name: MOTI",
+      "> Compatibility: 99.99%",
+      "> Heart.exe status: OVERHEATED ❤️‍🔥",
+      "> Critical error: Cannot stop thinking about Moti.",
+      "> Solution found...",
+      "> Ask Moti for a date. 😎",
+      "> Executing final proposal..."
+    ];
+
+    let line = 0;
+    let character = 0;
+
+    function typeText() {
+
+      if (line >= messages.length) {
+        document.getElementById("proposal").style.display = "block";
+        return;
+      }
+
+      const terminal = document.getElementById("terminal");
+
+      if (character < messages[line].length) {
+
+        terminal.innerHTML += messages[line][character];
+
+        character++;
+
+        setTimeout(typeText, 35);
+
+      } else {
+
+        terminal.innerHTML += "<br>";
+
+        line++;
+        character = 0;
+
+        setTimeout(typeText, 450);
+      }
+    }
+
+
+    /* =========================
+       NO BUTTON
+    ========================= */
+
+    const noTexts = [
+      "NO 😶",
+      "Are you sure? 🤨",
+      "Think again 😏",
+      "Really? 🥺",
+      "Nice try 😂",
+      "NO.exe crashed 💀",
+      "Maybe YES? ❤️"
+    ];
+
+    let noClicks = 0;
+
+    function noClicked() {
+
+      const noButton = document.getElementById("no");
+
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      const maxX = window.innerWidth - buttonWidth - 15;
+      const maxY = window.innerHeight - buttonHeight - 15;
+
+      const randomX = Math.max(
+        10,
+        Math.random() * maxX
+      );
+
+      const randomY = Math.max(
+        10,
+        Math.random() * maxY
+      );
+
+      noButton.style.position = "fixed";
+      noButton.style.left = randomX + "px";
+      noButton.style.top = randomY + "px";
+
+      noButton.innerText =
+        noTexts[Math.min(noClicks, noTexts.length - 1)];
+
+      noClicks++;
+
+      document.getElementById("answer").innerHTML =
+        "<span style='color:#ffcc00'>" +
+        "⚠️ SYSTEM WARNING ⚠️<br><br>" +
+        "NO button is trying to escape 😂💻" +
+        "</span>";
+    }
+
+
+    /* =========================
+       YES BUTTON
+    ========================= */
+
+    function yesClicked() {
+
+      document.getElementById("answer").innerHTML =
+        "<span style='color:#00ff88'>" +
+        "ACCESS GRANTED ❤️<br><br>" +
+        "DATE_ACCEPTED = TRUE ✅<br><br>" +
+        "Laukesh.exe is officially the happiest program alive. 😭❤️" +
+        "</span>";
+
+      document.getElementById("no").style.display = "none";
+
+      createHearts();
+    }
+
+
+    /* =========================
+       HEART EFFECT
+    ========================= */
+
+    function createHearts() {
+
+      for (let i = 0; i < 40; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+
+        heart.innerHTML =
+          Math.random() > 0.5 ? "❤️" : "💖";
+
+        heart.style.left =
+          Math.random() * 100 + "vw";
+
+        heart.style.animationDelay =
+          Math.random() * 2 + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+    }
+
+
+    /* START */
+
+    typeText();
+
+  </script>
+
+</body>
+</html>
